@@ -28,9 +28,15 @@ function usage {
 }
 function gui {
     key=`zenity --title "GPG Key Register" --entry --text="Insert key" --width=430`
+    if [ "$key" = "" ]
+    then 
+	zenity --info --text="Requested Annulled" --title "GPG Key Register"
+	exit 1
+    else
     gpg --keyserver keyserver.ubuntu.com --recv $key
     gpg --export --armor $key 
     gksudo apt-key add -
+    fi 
 }
 
 function directkey {
